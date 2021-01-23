@@ -21,25 +21,28 @@ const vaciar_inputs = _ => {
 
 button.addEventListener('click', () => {
   
-  if(input_dni.value != null) {
+  if(input_dni.value != '') {
     vaciar_labels()
-    fetch(`https://api.reniec.cloud/dni/${input_dni.value}`)
-      .then(response => response.json())
-      .then(data => {
-        if(data.error) {
-          document.querySelector("#invalido").style.display = "block";
-          document.querySelector("#valido").style.display = "none";
-        } else {
-          nombre.textContent = data.nombres
-          apellidos.textContent = data.apellido_paterno + " " + data.apellido_materno
-          dni.textContent = data.dni
-          document.querySelector("#invalido").style.display = "none";
-          document.querySelector("#valido").style.display = "block";
-          vaciar_inputs()
-        }
-      })
-      
+    if(input_dni.value.length == 8) {
+      fetch(`https://api.reniec.cloud/dni/${input_dni.value}`)
+        .then(response => response.json())
+        .then(data => {
+          if(data.error) {
+            document.querySelector("#invalido").style.display = "block";
+            document.querySelector("#valido").style.display = "none";
+          } else {
+            nombre.textContent = data.nombres
+            apellidos.textContent = data.apellido_paterno + " " + data.apellido_materno
+            dni.textContent = data.dni
+            document.querySelector("#invalido").style.display = "none";
+            document.querySelector("#valido").style.display = "block";
+            vaciar_inputs()
+          }
+        })
+    }else {
+      console.log('hay mas o menos de 8 caracteres')
+    } 
   }else {
-
+    console.log('el input esta vacio')
   }
 })
