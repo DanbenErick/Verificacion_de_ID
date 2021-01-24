@@ -24,7 +24,9 @@ button.addEventListener('click', () => {
   if(input_dni.value != '') {
     vaciar_labels()
     if(input_dni.value.length == 8) {
-      fetch(`https://api.reniec.cloud/dni/${input_dni.value}`)
+      fetch(`https://api.reniec.cloud/dni/${input_dni.value}`,{
+        mode: 'cors'
+      })
         .then(response => response.json())
         .then(data => {
           if(data.error) {
